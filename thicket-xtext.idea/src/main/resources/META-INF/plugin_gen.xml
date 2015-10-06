@@ -1,0 +1,93 @@
+<idea-plugin version="2">
+	<extensions defaultExtensionNs="org.eclipse.xtext.idea">
+		<package
+			uri="http://www.thicket-lang.org/lang/xtext/Thicket"
+			class="org.thicket.lang.xtext.thicketDSL.ThicketDSLPackage"
+		/>
+		<resourceFactory 
+			type="tkt"
+			class="org.eclipse.xtext.resource.IResourceFactory"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+		/>
+		<resourceServiceProvider
+			uriExtension="tkt"
+			class="org.eclipse.xtext.idea.resource.IResourceIdeaServiceProvider"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+		/>
+
+		<lang.setup
+			language="org.thicket.lang.xtext.Thicket"
+			implementationClass="org.thicket.lang.xtext.idea.ThicketIdeaSetup"
+		/>
+	</extensions>
+
+	<extensions defaultExtensionNs="com.intellij">
+		<psi.treeChangePreprocessor implementation="org.thicket.lang.xtext.idea.lang.psi.ThicketCodeBlockModificationListener"/>
+
+		<fileTypeFactory implementation="org.thicket.lang.xtext.idea.lang.ThicketFileTypeFactory"/>
+		<stubElementTypeHolder class="org.thicket.lang.xtext.idea.lang.ThicketElementTypeProvider"/>
+		<lang.ast.factory 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.lang.BaseXtextASTFactory"
+		/>
+		<lang.parserDefinition 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="org.thicket.lang.xtext.idea.lang.parser.ThicketParserDefinition"
+		/>
+		<lang.findUsagesProvider 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.findusages.BaseXtextFindUsageProvider"
+		/>
+		<lang.refactoringSupport 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.refactoring.BaseXtextRefactoringSupportProvider"
+		/>
+		<lang.namesValidator 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="com.intellij.lang.refactoring.NamesValidator"
+		/>
+		<lang.syntaxHighlighterFactory key="org.thicket.lang.xtext.Thicket" implementationClass="org.thicket.lang.xtext.idea.highlighting.ThicketSyntaxHighlighterFactory" />
+		<lang.braceMatcher 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="com.intellij.lang.PairedBraceMatcher"
+		/>
+		<annotator 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="org.eclipse.xtext.idea.annotation.IssueAnnotator"
+		/>
+		<completion.contributor language="org.thicket.lang.xtext.Thicket" implementationClass="org.thicket.lang.xtext.idea.completion.ThicketCompletionContributor"/>
+		<pom.declarationSearcher implementation="org.thicket.lang.xtext.idea.lang.pom.ThicketPomDeclarationSearcher"/>
+
+		<lang.psiStructureViewFactory 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="com.intellij.lang.PsiStructureViewFactory"
+		/>
+		<facetType implementation="org.thicket.lang.xtext.idea.facet.ThicketFacetType"/>
+      	<lang.documentationProvider 
+      		language="org.thicket.lang.xtext.Thicket"
+      		factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+      		implementationClass="org.eclipse.xtext.idea.documentation.IdeaDocumentationProvider"
+      	/>
+		<colorSettingsPage implementation="org.thicket.lang.xtext.idea.highlighting.ThicketColorSettingsPage"/>
+		<highlightVisitor implementation="org.thicket.lang.xtext.idea.highlighting.ThicketSemanticHighlightVisitor"/>
+
+		<lang.formatter 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="com.intellij.formatting.FormattingModelBuilder"
+		/>
+		<lang.commenter 
+			language="org.thicket.lang.xtext.Thicket"
+			factoryClass="org.thicket.lang.xtext.idea.ThicketExtensionFactory"
+			implementationClass="com.intellij.lang.CodeDocumentationAwareCommenter"
+		/>
+	</extensions>
+</idea-plugin>

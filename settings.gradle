@@ -1,0 +1,4 @@
+include 'thicket-xtext'
+include 'thicket-xtext.ide'
+include 'thicket-xtext.idea'
+include 'thicket-xtext.web'

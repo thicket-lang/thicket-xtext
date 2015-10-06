@@ -1,0 +1,94 @@
+grammar org.thicket.lang.xtext.Thicket with org.eclipse.xtext.common.Terminals
+
+generate thicketDSL 'http://www.thicket-lang.org/lang/xtext/Thicket'
+
+Model:
+	'module' name+=ident ('.' names+=ident)*  imports+=imports* entities+=entity*;
+
+imports:
+	'from' ident ('.' ident)* 'import' ('*'|(identOrOp (',' identOrOp)+))
+	| 'import' ident ('.' ident)*;
+
+entity:
+	typeDef | sortDef | objectDef | expressionDef | classDef | traitDef;
+
+typeDef:
+	'typedef' ident generics '=' generics types;
+
+sortDef:
+	'type' ident generics '{' ('model'? ident ('{' tparam* '}')?)+ '}';
+
+objectDef:
+	'model' ident generics ('{' tparam* '}')?;
+
+tparam:
+	identOrOp ':' generics types;
+
+generics:
+	('[' ident+ ']')?;
+
+type:
+	ident ('[' types+ ']')?
+	| '(' types ')';
+
+types:
+	type ((','|'->') types)?;
+
+expressionDef:
+	'def' 'adapter'? identOrOp (':' generics types)? '=' ((ident (':' generics type)?)+ '->')? sexpr;
+
+classDef:
+	'class' ident generics tparam '{' (('+' type)|tparam)* '}' '{' methodClass* '}';
+
+traitDef:
+	'trait' ident generics '{' (('+' type)|tparam)* '}' '{' methodTrait* '}';
+
+methodClass:
+	'def' (ident '.')? identOrOp ident* '=' expr+;
+
+methodTrait:
+	'def' identOrOp ident* '=' expr+;
+
+expr:
+	iexpr (',' iexpr)*;
+
+iexpr:
+	sexpr ('.' ident)*;
+
+sexpr:
+	INT
+	| STRING
+	// | type '::' identOrOp
+	| OP
+	| DOLL
+	| '(' expr+ ')'
+	| '{' expr+ '}'
+	| '<' ident attr* (('>' expr+ '</' ident? '>')|'/>')
+	| 'for' (ident '<-' sexpr)+ ('if' expr+)* 'yield' expr
+	| 'let' ident (':' generics type)? '=' expr+ 'in' expr
+	| 'new' expr+ 'with' (ident '=' sexpr)+
+	| ident // ((':' generics type)? (ident (':' generics type)?)+ '->' sexpr)?
+;
+
+attr:
+	ident '=' sexpr;
+
+identOrOp:
+	ident
+	| '(' OP ')';
+
+terminal ident:
+	ID;
+
+terminal DOLL:
+	'$';
+
+terminal OP:
+	SOP (SOP|EOP)*
+	|EOP (SOP|EOP)+;
+
+terminal SOP:
+	('~'|'#'|'?'|';'|'@'|'&'|'!'|'%'|'>'|'='|'+'|'*'|'/'|'|'|'^'|'-'|'[');
+
+terminal EOP:
+	('$'|'<'|'.'|':');
